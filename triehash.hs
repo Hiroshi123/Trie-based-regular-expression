@@ -9,7 +9,8 @@ class TrieHash where
   --1st argument is query
   --2nd argument is buffer
   --3rd argument is a trie
-  --return is trie  
+  --return is trie
+  
   retrieve  :: String -> Trie2 Char Int-> Maybe (String,Int)
   retrieve' :: String -> String -> Trie2 Char Int-> Maybe (String,Int)
   
@@ -23,6 +24,8 @@ class TrieHash where
   
   repeat'  :: Char -> String -> String
   repeat'' :: Char -> String -> Trie2 Char Int -> (String , Trie2 Char Int,Bool)
+  
+  inBraceL :: String -> (String,String)
   
   
 instance TrieHash where
@@ -74,22 +77,56 @@ instance TrieHash where
   match' s _  E2 = []
   
   match' s (h:t) (N2 k v b c)
-    | (t /= []) && (head t) == '+' = do
-        case h of
-          k  -> (match' (s++[k]) (h:t) b) ++ (match' (s++[k]) (tail t) b) 
-          _  -> (match' s (h:t) c)
+  -- +(repeat -> more than 1)
+    | (t /= []) && (head t) == '+' && (h == k) = (match' (s++[k]) (h:t) b) ++ (match' (s++[k]) (tail t) b)
+    | (t /= []) && (head t) == '+' = match' (s++[k]) (h:t) c
+    
+    
+  -- \*(repeat -> more than 0)
+    | (t /= []) && (head t) == '*' && (h == k) = (match' (s++[k]) (h:t) b) ++ (match' s (tail t) b)
+    | (t /= []) && (head t) == '*' = (match' s (tail t) (N2 k v b c)) ++ (match' s (h:t) c)
+    
+    
+  -- {} (fixed repeat)  
+    | (t /= []) && (head t) == '{' && (head $ tail t) /= '0' && (h == k) = do
+        let ls = head $ tail t
+        let tt = "{" ++ [oneDown ls] ++ tail (tail t)
+        match' (s++[k]) (h:tt) b
+    | (t /= []) && (head t) == '{' && (head $ tail t) /= '0' = match' s (h:t) c
+    | (t /= []) && (head t) == '{' && (head $ tail t) == '0' = match' s (tail $ tail $ tail t) (N2 k v b c)
+    
+                                                               
+    --brace (or)
     | (h == '[') = do
-        let (m,n) = hei t
+        let (m,n) = inBraceL t
         let o = filter (==k) m
         (match' s (h:t) c) ++ (match' (s++o) n b)
         
-        
-    | (h == k) && (t == []) && (v /= 0) = [s++[k]] ++ (match' (s++[h]) t b)
-    | h == k = match' (s++[h]) t b
-    | h == '.' = match' (s++[k]) t b
+    --digit
+    | (h == '\\') && ((head t) == 'd') = do
+        let o = filter (==k) digit
+        case o of
+          [] -> match' s (h:t) c
+          _  -> (match' (s++o) (tail t) b) ++ (match' s (h:t) c)
           
+          
+    --large capital
+    | (h == '\\') && ((head t) == 'w') = do
+        let o = filter (==k) largeCapital
+        case o of
+          [] -> match' s (h:t) c
+          _  -> match' (s++o) (tail t) b ++ (match' s (h:t) c)
+          
+          
+    -- match and the end of word and query
+    | (h == k) && (t == []) && (v /= 0) = [s++[k]] ++ (match' (s++[h]) t b)
+    -- match but not meet both two condition
+    | h == k = match' (s++[h]) t b
+    -- jump (no matter what matches)
+    | h == '.' = match' (s++[k]) t b
+                 
     | h > k  = match' s (h:t) c
-    | h < k  = []    
+    | h < k  = []
     
   insert [] E2 = E2
   insert [] (N2 k v b c) = (N2 k v b c)
@@ -122,38 +159,60 @@ instance TrieHash where
   
   --toList' s (N2 k v b c) = [s++[k]] ++ (toList' (s++[k]) b) ++ (toList' s c)
   
-  
-hei :: String -> (String,String)
-
-hei (h:t)
-  | h == ']' = ([],t)
-  | (head t) == '-' = do
-      let m = slash h (head $ tail t)
-      let (p,q) = hei (tail t)
-      (m++p,q)
-      
-  | otherwise = do
-      let (p,q) = hei t
-      (h:p,q)
-      
-      
+  inBraceL (h:t)
+    | h == ']' = ([],t)
+    | (head t) == '-' = do
+        let m = slash h (head $ tail t)
+        let (p,q) = inBraceL (tail t)
+        (m++p,q)
+    | otherwise = do
+        let (p,q) = inBraceL t
+        (h:p,q)
+        
+        
 alphabet :: String
 alphabet = "abcdefghijklmnopqrstuwwxyz"
 
-take' :: Char -> String -> String
-take' a (h:t)
+digit :: String
+digit = "0123456789"
+
+oneDown :: Char -> Char
+oneDown = oneDown' (reverse digit)
+oneDown' :: String -> Char -> Char
+oneDown' (h:t) a
+  | h == a    = head t
+  | otherwise = oneDown' t a
+
+
+largeCapital :: String
+largeCapital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+takeL :: Char -> String -> String
+takeL a (h:t)
   | a == h    = [h]
-  | otherwise = h : (take' a t)
+  | otherwise = h : (takeL a t)
   
   
-drop' :: Char -> String -> String
-drop' a (h:t)
+dropL :: Char -> String -> String
+dropL a (h:t)
   | a == h    = (h:t)
-  | otherwise = drop' a t
+  | otherwise = dropL a t
   
   
 slash :: Char -> Char -> String 
-slash a b = take' b (drop' a alphabet)
+slash a b = takeL b (dropL a alphabet)
+
+
+charInt :: [(Char,Int)]
+charInt =
+  [
+  ('0',0),('1',1),('2',2),('3',3),('4',4),
+  ('5',5),('6',6),('7',7),('8',8),('9',9)
+  ]
+
+charToInt :: Char -> Int
+charToInt a = snd $ head $ filter (\(x,y)-> x == a) charInt
 
 main = do
   
@@ -167,18 +226,19 @@ main = do
   
   print $ c
   
-  let d = insert "love" c
-  let e = insert "like" d
+  let d = insert "Love" c
+  let e = insert "liked" d
   let f = insert "likes" e
-  let g = insert "liiiiked" f
+  let g = insert "liiiked" f
   
   let h = insert "like" g
   let hh = insert "likelyhood" h
   let i = insert "loke" hh
-  let z = insert "liked" i
+  let j = insert "sea1cj" i
+  let z = insert "lked" j
   
   print z
-  
+  {--
   print $ toList z
   print $ retrieve "l.ke" z
   print $ retrieve "li+ked" z
@@ -188,8 +248,22 @@ main = do
   print $ match "l.ked" z
 
   print $ match "l[i-w]ke" z
+
+  print $ match "sea\\dcj" z
   
-  print $ match "like" z  
+  print $ match "like" z
+  
+  print $ match "\\wove" z
+  --}
+
+  print $ match "li{1}ke" z
+  print $ match "li{3}ked" z
+  
+  print $ match "li+ked" z
+  
+  print $ charToInt '0'
+  --print $ ([oneDown '7']++"}")
+  --let o = filter (=='L') largeCapital
   
   print "hi"
   
