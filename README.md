@@ -1,15 +1,24 @@
-# Trie-based-regular-expression
-Trie based regular expression
+# Reg-puchi
 
-#features
+# Motivation
 
-repeat (+,*,{})
+Regular Expressions are so cute  (｀・ω・´ )/
 
-disjunction([])
 
-digit(\d)
+That is why this repository is to my best effort dedicated for embracing them.
 
-large captical(\w)
+# Features (as a schedule)
 
-...
+Translation to vm code
+
+Translation to (Monadic) parser combinator
+
+
+# Links
+
+A Regular Expression Virtual Machine
+https://swtch.com/~rsc/regexp/regexp2.html
+
+Monadic Parser Combinator
+http://www.cs.nott.ac.uk/~pszgmh/monparsing.pdf
 
