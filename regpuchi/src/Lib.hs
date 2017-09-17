@@ -1,6 +1,16 @@
+
 module Lib
-    ( someFunc
-    ) where
+  (
+    someFunc
+  ) where
+
+import Data.M
+
+-- "*"
+-- "^"
+-- ""
+-- 
+-- 
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
