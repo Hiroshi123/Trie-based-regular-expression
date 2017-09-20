@@ -4,15 +4,17 @@
 
 Regular Expressions are so cute  (｀・ω・´ )/
 
-
 That is why this repository is to my best effort dedicated for embracing them.
 
-# Features (as a schedule)
+# Features
 
-Translation to vm code
+* Automaton & Tree Visualization with GraphViz
 
-Translation to (Monadic) parser combinator
+* NFA -> NDF
 
+* Translation to vm code
+
+* Supports from monadic parser combinator
 
 # Links
 
@@ -22,3 +24,5 @@ https://swtch.com/~rsc/regexp/regexp2.html
 Monadic Parser Combinator
 http://www.cs.nott.ac.uk/~pszgmh/monparsing.pdf
 
+
+http://sebfisch.github.io/haskell-regexp/regexp-play.pdf
