@@ -10,11 +10,19 @@ That is why this repository is to my best effort dedicated for embracing them.
 
 * Automaton & Tree Visualization with GraphViz
 
-* NFA -> NDF
-
-* Translation to vm code
-
 * Supports from monadic parser combinator
+
+* [NFA -> NDF] -> under maintanance
+
+* [Translation to vm code] -> under maintanance
+
+## Example yet another shell command on my own regular expression is added.
+
+### awk (15%)
+
+### sed (5%)
+
+### grep ..
 
 # Links
 
