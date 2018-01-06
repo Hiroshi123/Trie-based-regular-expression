@@ -1,16 +1,14 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE KindSignatures #-}
 
-module MControl.State where
 
-import MControl.M 
+
+module Control_.State where
+
+import Control_.M 
 
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BC 
 
-import MData.BNF.Lisp2
+--import MData.BNF.Lisp2
 
 import Data.Word
 import System.IO
@@ -26,33 +24,25 @@ instance M (State s) where
     let (x,s1) = f1 s
     in runState (f2 x) s1
     
+  -- for warning prevention
+  a **> b = b
+  a **< b = a
+  a >** b = b
+  a <** b = a
     
-fgh :: State Bs [(Bs,Lisp)]
-fgh = State (\x -> ( [ ( "" :: Bs , Atom Nil ) ] , x ) )
-
-h1 :: State Bs [Word8]
-h1 = State (\x -> ( [ BS.head x ] , x ) )
-
-hh = h1 >== (\x -> h1 >== (\y -> r' x))
-
-
---ff = openFile >>= ()
-
-interactFiles f fileNames = do
-  ss <- mapM readFile fileNames
-  putStr $ f (concat ss)
-  
 get :: State s s
 get = State $ \s -> (s, s)
 
 put :: s -> State s ()
 put s = State $ \_ -> ((), s)
 
+data ST' =
+  ST'
+  {
+    s1 :: [Char],
+    s2 :: Int
+  }
+  deriving (Show)
 
---ff :: 
---ff =
 
---runState :: State s a -> s -> (a,s)
---runState f a = f a
 
-  

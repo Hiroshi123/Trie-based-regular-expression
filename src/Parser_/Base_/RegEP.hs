@@ -11,12 +11,12 @@ import Data.Word
 
 import Control_.M
 
-import Parser_.Base.Base
-import Parser_.Base.ByteStr
+import Parser_.Base_.Base
+import Parser_.Base_.ByteStr
 
-import Data_.BNF.RegE
+--import Data_.BNF.RegE
 
-
+import Data_.RegE
 
 --input' = BS.getLine >>= (\x -> return $ f11 (Start,x))
 
@@ -65,27 +65,35 @@ rule1 = symbol <|> ruleDisj <|> ruleStar -- <||> []
 
 --------------------------------------------------------------------
 
-symbol :: Parser RegE
-symbol =
-  Parser
-  $ \x ->
-      let v = BS.head x
-      in case (96 < v) && (v < 98) of
-           True  -> [(C v,BS.tail x)]
-           False -> []
+symbol = item >== (\x -> r' (C (BS.head x)))
+
+-- symbol :: Parser RegE
+-- symbol =
+--   Parser
+--   $ \x ->
+--       let v = BS.head x
+--       in case (96 < v) && (v < 98) of
+--            True  -> [(C v,BS.tail x)]
+--            False -> []
       
 
 sepa = char (BC.pack "|")
 
 ruleDisj :: Parser RegE
-ruleDisj = 
-  (char $ BC.pack "(") >==
-  (\_ ->
-     ruleDisj' >==
-     (\y -> (char $ BC.pack ")") >==
-       (\_ -> (r' y))
-     )
-  )  
+ruleDisj = between a b c
+  where a = char "("
+        b = ruleDisj'
+        c = char ")"
+
+-- ruleDisj'
+--   (char $ BC.pack "(") >==
+--   (\_ ->
+--      ruleDisj' >==
+--      (\y -> (char $ BC.pack ")") >==
+--        (\_ -> (r' y))
+--      )
+--   )
+  
   
 ruleDisj' :: Parser RegE
 ruleDisj' = (ruleConj start) `disj` (ruleConj start)

@@ -25,7 +25,6 @@ instance ParserC BS.ByteString where
            (\y -> r' $ BS.append x y )
     )
     
-    
   many x =  many1 x  <|> r' ""
   -- many1 is going to be ended when many1 returns empty list
   many1 p = p >== (\x -> many p >== (\y -> r' $ BS.append x y) )
@@ -43,6 +42,19 @@ instance ParserC BS.ByteString where
 ---------------- following monadic functions are only for bytestring data type ---------------------
 
 -- bottom parser which will produce bytestring Type
+
+item0_ :: Parser BS.ByteString
+item0_ =
+  Parser $
+  \x -> case x of
+          ""  -> []
+          _   -> [(BS.singleton $ BS.head x,x)]
+
+item0 :: Parser BS.ByteString
+item0 =
+  Parser $
+  \x -> [(BS.singleton $ BS.head x,x)]
+  
 
 item :: Parser BS.ByteString
 item =
@@ -188,8 +200,7 @@ str = dquote
       
 between a b c =  
   (<->) **> a **>  (<->) **>
-  b **<  (<->) **< c **< (<->)
-  
+  b **<  (<->) **< c -- **< (<->)
   
 -- str :: Parser BS.ByteString
 -- str =  
@@ -264,7 +275,9 @@ jump s =
 comma :: Parser BS.ByteString
 comma = satisfy ( BC.pack "," == )
 
+until' x = many (satisfy (x /=))
 
+           
 with_space x = 
   (<->) **> x **< (<->)
   

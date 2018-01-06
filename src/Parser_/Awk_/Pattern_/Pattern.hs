@@ -15,8 +15,6 @@ import Parser_.Awk_.Data_.Data
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BC
 
-
-
     
 pattern_ :: Parser Pattern
 pattern_ = (begin_ <|> end_ <|> any_pattern_) >== (\x -> r' $ Pattern' x)

@@ -37,9 +37,9 @@ itemL = Parser $ \x ->
     "" -> []
     _  -> [([BS.singleton $ BS.head x],BS.tail x)]
     
-
-satisfyL f = itemL >== (\x -> if f (head x) then r' x else (<>))
     
+satisfyL f = itemL >== (\x -> if f (head x) then r' x else (<>))
+             
 charL :: BS.ByteString -> Parser [BS.ByteString]
 charL c = satisfyL (c == )
 
