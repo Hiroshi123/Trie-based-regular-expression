@@ -16,7 +16,11 @@ That is why this repository is to my best effort dedicated for embracing them.
 
 * [Translation to vm code] -> under maintanance
 
-## Example yet another shell command on my own regular expression is added.
+
+
+## Example yet-another shell command
+
+`./src/Parser_/` is where you will find their source files.
 
 ### awk (15%)
 
