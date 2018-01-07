@@ -10,7 +10,7 @@ That is why this repository is to my best effort dedicated for embracing them.
 
 * Automaton & Tree Visualization with GraphViz
 
-* Supports from monadic parser combinator [docs] ()
+* Supports from monadic parser combinator [docs](https://github.com/Hiroshi123/reg-puchi/blob/master/docs/regvspsc.md)
 
 * NFA to NDF -> under maintanance
 
