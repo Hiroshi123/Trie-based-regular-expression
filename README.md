@@ -8,6 +8,8 @@ That is why this repository is to my best effort dedicated for embracing them.
 
 # Features
 
+### Towards regular expression itself
+
 * Automaton & Tree Visualization with GraphViz
 
 * Supports from monadic parser combinator [docs](https://github.com/Hiroshi123/reg-puchi/blob/master/docs/regvspsc.md)
@@ -16,25 +18,30 @@ That is why this repository is to my best effort dedicated for embracing them.
 
 * Translation to vm code [docs](https://github.com/Hiroshi123/reg-puchi/blob/master/docs/regvm.md)
 
+### Towards its application
+
+* awk :: [docs] ()
+
+* sed :: [docs] ()
+
+* grep :: [docs] ()
+
 # Documentation
 
-Check `./docs/*`out.
+Rather being called solid documentations,
+there are some notes about my thoughts on this topic.
+
+Check `./docs/` out.
 
 # Example
 
-### (with  yet-another shell command )
-
-`./src/Parser_/` is where you will find their source files.
-
-### awk
-
-### sed
-
-### grep
+* awk
+* sed
+* grep
 
 ### any reg-expression-heavily-dependent commands will be added.
 
-# Links
+# Reference Links
 
 A Regular Expression Virtual Machine
 https://swtch.com/~rsc/regexp/regexp2.html
