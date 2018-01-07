@@ -22,13 +22,13 @@ must be partially modified.
 
 To put its conclusion first,
 
-1. `char` 
 
-2  `split`
-
-3. `jump`
-
-4. `match`
+|Opecode|1st Operand|2nd Operand|Description|
+|:-|:-|:-|:-|
+|char|character|check if an operand is matched with a given input character|
+|split|program counter to be jumped||program counter to be jumped|jump 1st or 2nd|
+|jump|program counter|decisively jump to program counter|
+|match||this means input-sentense was consumed|
 
 To map them, 
 
