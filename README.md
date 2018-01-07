@@ -14,19 +14,25 @@ That is why this repository is to my best effort dedicated for embracing them.
 
 * [NFA -> NDF] -> under maintanance
 
-* [Translation to vm code] -> under maintanance
+* [Translation to vm code] [docs](`https://github.com/Hiroshi123/reg-puchi/blob/master/docs/regvm.md`)
 
+# Documentation
 
+Check `./docs/*`out.
 
-## Example yet-another shell command
+# Example
+
+### (with  yet-another shell command )
 
 `./src/Parser_/` is where you will find their source files.
 
-### awk (15%)
+### awk
 
-### sed (5%)
+### sed
 
-### grep ..
+### grep
+
+### any reg-expression-heavily-dependent commands will be added.
 
 # Links
 
