@@ -23,23 +23,29 @@ must be partially modified.
 To put its conclusion first,
 
 1. `char` 
+
 2  `split`
+
 3. `jump`
+
 4. `match`
 
 To map them, 
 
 * Conjunction will be incrementation of program counter having one-character recognition before and after it.
   Let's call it `char` as mnemonic following the name of same functionality in parser combinator.
+
   e.g. `ab -> char a ; char b`
 
 * Disjunction will be `split` instruction where two operands will be followed. The two operand
   indicates where next instructions heads. Generally, it would be preffered to have relative distance between
   the line number of the `split` instruction and both instruction which will be jumped.
+
   e.g. `(a|b) -> (line-nth) split n+1 n+3 ; char a ; jump (n+4) ; char b ; `
 
 * Repetion will be mapped with `jump` & `split` as well as disjunction. The difference is `jump` instruction
   will always drive you one of previous split in case of representing repetition.
+
   e.g. `a* -> split (ln+1) (ln+3) ; char a ; jump n ; where ln = current line number`
   
 
