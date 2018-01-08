@@ -23,13 +23,13 @@ That is why this repository is to my best effort dedicated for embracing them.
 I am making corresponding virtual machine and bit-code which fits capability of each commands with parsing them
 from scratch. Take a look at documents below.
 
-* awk
+#### awk
 
 docs => [here]()
 
 parser implementation => [here](https://github.com/Hiroshi123/reg-puchi/blob/master/src/Parser_/Awk_)
 
-* sed
+#### sed
 
 docs => [here](https://github.com/Hiroshi123/reg-puchi/blob/master/docs/sedvm.md)
 
@@ -37,7 +37,7 @@ parser implementation => [here](https://github.com/Hiroshi123/reg-puchi/blob/mas
 
 vm implementation =>
 
-* grep :: [docs] ()
+#### grep :: [docs] ()
 
 docs =>
 
