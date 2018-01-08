@@ -1,12 +1,12 @@
 # Reg-puchi
 
-# Motivation
+## Motivation
 
 Regular Expressions are so cute  (｀・ω・´ )/
 
 That is why this repository is to my best effort dedicated for embracing them.
 
-# Features
+## Features
 
 ### Towards regular expression itself
 
@@ -20,20 +20,23 @@ That is why this repository is to my best effort dedicated for embracing them.
 
 ### Towards its application
 
+I am making corresponding virtual machine and bit-code which fits capability of each commands with parsing them
+from scratch. Take a look at documents below.
+
 * awk :: [docs] ()
 
-* sed :: [docs] ()
+* sed :: [docs] (https://github.com/Hiroshi123/reg-puchi/blob/master/docs/sedvm.md)
 
 * grep :: [docs] ()
 
-# Documentation
+## Documentation
 
-Rather being called solid documentations,
+Rather than being called solid documentations,
 there are some notes about my thoughts on this topic.
 
 Check `./docs/` out.
 
-# Example
+## Example
 
 * awk
 * sed
@@ -41,7 +44,7 @@ Check `./docs/` out.
 
 ### any reg-expression-heavily-dependent commands will be added.
 
-# Reference Links
+## Reference Links
 
 A Regular Expression Virtual Machine
 https://swtch.com/~rsc/regexp/regexp2.html
