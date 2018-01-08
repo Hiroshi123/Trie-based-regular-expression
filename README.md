@@ -25,7 +25,7 @@ from scratch. Take a look at documents below.
 
 * awk :: [docs] ()
 
-* sed :: [docs] (https://github.com/Hiroshi123/reg-puchi/blob/master/docs/sedvm.md)
+* sed  [docs] (https://github.com/Hiroshi123/reg-puchi/blob/master/docs/sedvm.md)
 
 * grep :: [docs] ()
 
