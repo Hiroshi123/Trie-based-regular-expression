@@ -23,11 +23,25 @@ That is why this repository is to my best effort dedicated for embracing them.
 I am making corresponding virtual machine and bit-code which fits capability of each commands with parsing them
 from scratch. Take a look at documents below.
 
-* awk :: [docs] ()
+* awk
 
-* sed  [docs](https://github.com/Hiroshi123/reg-puchi/blob/master/docs/sedvm.md)
+docs => [here]()
+
+parser implementation => [here](https://github.com/Hiroshi123/reg-puchi/blob/master/src/Parser_/Awk_)
+
+* sed
+
+docs => [here](https://github.com/Hiroshi123/reg-puchi/blob/master/docs/sedvm.md)
+
+parser implementation => [here](https://github.com/Hiroshi123/reg-puchi/blob/master/src/Parser_/Sed_/Base.hs)
+
+vm implementation =>
 
 * grep :: [docs] ()
+
+docs =>
+
+
 
 ## Documentation
 
