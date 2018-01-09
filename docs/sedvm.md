@@ -85,7 +85,7 @@ question to myself
 
 Q. is that a stack or register machine?
 
-A. There is no nested structure but recognition of regular expression, should be on
+A. There is no nested structure but recognition of regular expression, suggesting it should be on
    a register machine.
 
 Q. How many register do you need?
@@ -96,8 +96,10 @@ Q. What is Basic instruction cycle and how many minimum opecode do you need ?
 
 A. Most basic cycle is load & store.
 
+```
 1. load
 2. store
+```
 
 You just load some bits no matter how many which is allowed from given register set and put
 it in a register which is called patten space in sed , and
@@ -106,18 +108,59 @@ If there is no functions are set, just 2 opecode is enough.
 
 If you have a function, then you need to insert following 3 just like typical instruction cycle would have.
 
+```
 1. load
 2. fetch   <- fetching a next instruction
 3. decode  <- recognizing opecode & operand and execute
 4. execute <- running 
-5. load   
+5. store
+```
+
+If you have enough registers which enables you to put all of instructions which represent
+pairs of address & function that you ought to apply to given files, you do not need
+(fetch->decode->execute) but only (execute)
+as you can place these instructions on some registers till the end of
+a given input file.
+
+
+Normally, a file you received has multiple lines, besides a line contains many characters.
+But, it is assumed number of registers and bits that these registers can hold is limited.
+That means, sequence of instruction is going to be long unless you set cmp & br & jump instruction
+just like below.
+
+```
+1. cmp 
+2. br (bool) 3 7
+3. load
+4. (fetch-decode-execute)
+5. store
+6. jump 1
+7. end
+```
+
+If you make a distinction between a cycle for character inputs from a line and a cycle for a line from a file,
+you need to set anohter br with instruction to increment line number.
+
+```
+1. cmp  <- if a line is EOF or not 
+2. br 3 10 
+3. inc <- increment line number
+4. cmp <- if a character is \n
+5. br 4 1
+6. load
+7. (fetch-decode-execute)
+8. store
+9. jump 5
+10. end
+```
 
 Q. how many opecode realistically do you need?
 
-A. The answet to this question needs to be long.
-
+A. The answer to this question needs to be long.
 
 Let us think one by one refferring possible sed function.
+
+### Address
 
 But, before anything else, do not forget all of sed commands may have address which works
 as a filter function before applying following function to pattern space.
@@ -126,11 +169,14 @@ Note that if address provides true on a given input, texts on a pattern space is
 to stdout as they are.
 
 To represent this function on VM, you need br instruction where you will step next or jump over the instruction
-which corresponds a following instruction.
+which corresponds to a following instruction.
 
-1. br (Bool) 2 3
-2. an instruction
-3. store
+```
+1. cmp 
+2. br (Bool) 3 4
+3. an instruction
+4. store
+```
 
 Sed address might be either set of numbers or context address which contains regular expression.
 
@@ -138,18 +184,19 @@ To filter with line number, one of the register should be spent to hold sort of 
 so that you can compare given address and current line number. And you need 1 additional opecode which
 is cmp arg1 arg2 where both arg1 and arg2 should be integer to represent a line number.
 
-'1,2d'
+What about cases where context address which holds regular expression comes?
 
-1. load <- get some bits from a current line
-2. cmp (value of 1) (line number on an address)
-3. br (Bool of 2) 4 5 <- 
-4. an instruction
-5. store
-
-
-Most famous and representative function on sed functions are `s` which has two parameters.
+If you have already read the page about vm about regular expression,
+you must know what's needs to be done is
+adding instruction for regular expression.
+These instruction provides bool value to indicate if regular expression is matched or not which tells next br go
+to an instruction and apply a function or jump it.
 
 
+### function
+
+Most famous and representative function among all sed functions must be `s`
+; the abbreviation of "substitution" which has two parameters.
 
 where you just load from std
 
